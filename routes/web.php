@@ -26,7 +26,7 @@ use App\Http\Controllers\Admin\OptionController as AdminOptionController; // <--
 */
 
 // Rute Halaman Depan (Welcome)
-Route::get('/', [WelcomeController::class, 'index']);
+Route::get('/', [WelcomeController::class, 'index'])->name("welcome");
 
 // Rute untuk user yang sudah terautentikasi
 Route::middleware(['auth', 'verified'])->group(function () {
