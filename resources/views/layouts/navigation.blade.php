@@ -33,6 +33,9 @@
                         <a href="{{ route("admin.quizzes.index") }}" class="{{ request()->routeIs(['admin.quizzes.index', 'admin.quizzes.create', 'admin.quizzes.edit']) ? $activeClasses : $inactiveClasses }}">
                             Kelola Quiz
                         </a>
+                        <a href="{{ route("admin.plants.index") }}" class="{{ request()->routeIs(['admin.quizzes.index', 'admin.quizzes.create', 'admin.quizzes.edit']) ? $activeClasses : $inactiveClasses }}">
+                            Kelola Tanaman
+                        </a>
                         <a href="{{ route("admin.users.index") }}" class="{{ request()->routeIs(['admin.users.index', 'admin.users.create', 'admin.users.edit']) ? $activeClasses : $inactiveClasses }}">
                             Kelola User
                         </a>
@@ -82,7 +85,6 @@
                             <div class="text-left">
                                 <div>{{ Auth::user()->name }}</div>
                                 <div class="text-xs text-gray-400">
-                                    Level {{ Auth::user()->level }}
                                     @if(Auth::user()->isAdmin())
                                         <span class="font-semibold text-green-600">(Admin)</span>
                                     @endif
