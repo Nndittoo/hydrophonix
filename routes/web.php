@@ -18,6 +18,8 @@ use App\Http\Controllers\Admin\adminModuleController as AdminModuleController;
 use App\Http\Controllers\Admin\adminQuizController as AdminQuizController;
 use App\Http\Controllers\Admin\QuestionController as AdminQuestionController; // <-- [BARU]
 use App\Http\Controllers\Admin\OptionController as AdminOptionController; // <-- [BARU]
+use App\Http\Controllers\Admin\PlantController as AdminPlantController;
+use App\Http\Controllers\Admin\PlantMissionController as AdminPlantMissionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +28,7 @@ use App\Http\Controllers\Admin\OptionController as AdminOptionController; // <--
 */
 
 // Rute Halaman Depan (Welcome)
-Route::get('/', [WelcomeController::class, 'index']);
+Route::get('/', [WelcomeController::class, 'index'])->name("welcome");
 
 // Rute untuk user yang sudah terautentikasi
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -55,6 +57,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // Admin Dashboard
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('adminDashboard');
+
+    Route::resource('plants', AdminPlantController::class);
+    Route::resource('plants.missions', AdminPlantMissionController::class);
 
     // Admin Kelola Modul (CRUD)
     Route::resource('modules', AdminModuleController::class);
