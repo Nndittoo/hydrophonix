@@ -25,15 +25,6 @@
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
-        <!-- [DIUBAH] Hapus "Remember Me" & Ganti "Forgot Password" -->
-        <div class="text-right mt-2">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-green-700 hover:text-green-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" href="{{ route('password.request') }}">
-                    Lupa password?
-                </a>
-            @endif
-        </div>
-
         <!-- [DIUBAH] Tombol Masuk -->
         <div class="mt-6">
             <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">

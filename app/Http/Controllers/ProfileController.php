@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\User;
-use App\Models\UserPlant; // <-- [BARU] Import UserPlant
+use App\Models\UserPlant;
+use App\Models\UserQuizAttempt; // <-- [BARU]
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -15,13 +16,13 @@ use Illuminate\View\View;
 class ProfileController extends Controller
 {
     /**
-     * Menampilkan formulir profil pengguna.
+     * Menampilkan formulir profil pengguna beserta data gamifikasi.
      */
     public function edit(Request $request): View
     {
         $user = $request->user();
 
-        // --- LOGIKA PROGRESS BAR (Tetap) ---
+        // 1. Logika Progress Bar (Tetap)
         $currentLevelScore = User::LEVEL_MAP[$user->level];
         $nextLevelScore = $user->next_level_score;
         $progressPercent = 0;
@@ -37,17 +38,58 @@ class ProfileController extends Controller
             $scoreGainedInLevel = 0;
         }
 
-        // --- [LOGIKA BARU] Ambil data statistik tambahan ---
-
-        // 1. Ambil jumlah tanaman yang selesai
-        $plantsCompletedCount = UserPlant::where('user_id', $user->id)
-                                         ->where('status', 'completed')
-                                         ->count();
-
-        // 2. Ambil peringkat global (sama seperti di Dashboard)
+        // 2. Statistik Umum
+        $plantsCompletedCount = UserPlant::where('user_id', $user->id)->where('status', 'completed')->count();
         $higherScoreUsers = User::where('total_score', '>', $user->total_score)->count();
         $userRank = $higherScoreUsers + 1;
-        // --- AKHIR LOGIKA BARU ---
+
+        // 3. [BARU] Daftar Tanaman (Aktif & Selesai)
+        $myPlants = UserPlant::where('user_id', $user->id)
+                             ->with(['plant', 'currentMission'])
+                             ->orderBy('status', 'asc') // Aktif dulu, baru completed
+                             ->orderBy('created_at', 'desc')
+                             ->get();
+
+        // 4. [BARU] Riwayat Kuis
+        $myQuizzes = UserQuizAttempt::where('user_id', $user->id)
+                                    ->with('quiz.module')
+                                    ->orderBy('created_at', 'desc')
+                                    ->get();
+
+        // 5. [BARU] Logika BADGE (Penghargaan Sistem)
+        // Kita buat logika manual di sini tanpa tabel database khusus
+        $badges = collect([
+            [
+                'name' => 'Pendatang Baru',
+                'desc' => 'Bergabung dengan Hidrophonix',
+                'icon' => '👋',
+                'unlocked' => true, // Selalu dapat
+            ],
+            [
+                'name' => 'Petani Pemula',
+                'desc' => 'Mulai menanam tanaman pertama',
+                'icon' => '🌱',
+                'unlocked' => $myPlants->count() > 0,
+            ],
+            [
+                'name' => 'Si Cerdas',
+                'desc' => 'Mendapat nilai 100 di kuis',
+                'icon' => '💯',
+                'unlocked' => $myQuizzes->where('score', 100)->count() > 0,
+            ],
+            [
+                'name' => 'Panen Raya',
+                'desc' => 'Menelesaikan siklus 1 tanaman',
+                'icon' => '🌾',
+                'unlocked' => $plantsCompletedCount > 0,
+            ],
+            [
+                'name' => 'Master Hidroponik',
+                'desc' => 'Mencapai Level 5',
+                'icon' => '👑',
+                'unlocked' => $user->level >= 5,
+            ],
+        ]);
 
 
         return view('profile.edit', [
@@ -58,18 +100,19 @@ class ProfileController extends Controller
             'nextLevelScore' => $nextLevelScore,
             'scoreGainedInLevel' => $scoreGainedInLevel,
             'progressPercent' => $progressPercent,
-            'plantsCompletedCount' => $plantsCompletedCount, // <-- [BARU] Kirim data tanaman
-            'userRank' => $userRank, // <-- [BARU] Kirim data peringkat
+            'plantsCompletedCount' => $plantsCompletedCount,
+            'userRank' => $userRank,
+            'myPlants' => $myPlants, // Data Tanaman
+            'myQuizzes' => $myQuizzes, // Data Kuis
+            'badges' => $badges, // Data Badge
         ]);
     }
 
     /**
      * Memperbarui informasi profil pengguna.
-     * (Tidak berubah)
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        // ... (Tidak ada perubahan di sini) ...
         $request->user()->fill($request->validated());
 
         if ($request->user()->isDirty('email')) {
@@ -79,5 +122,26 @@ class ProfileController extends Controller
         $request->user()->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
+    }
+
+    /**
+     * Menghapus akun pengguna.
+     */
+    public function destroy(Request $request): RedirectResponse
+    {
+        $request->validateWithBag('userDeletion', [
+            'password' => ['required', 'current_password'],
+        ]);
+
+        $user = $request->user();
+
+        Auth::logout();
+
+        $user->delete();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return Redirect::to('/');
     }
 }

@@ -6,6 +6,13 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>Hidrophonix</title>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Text&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+            main {
+                font-family: "Montserrat", sans-serif;
+            }
+        </style>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">

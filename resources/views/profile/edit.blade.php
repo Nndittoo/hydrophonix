@@ -6,179 +6,210 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-8">
 
-            <!-- [KARTU DIPERBARUI] Informasi User & Statistik (Tata Letak Baru) -->
-            <div class="p-4 sm:p-8 shadow bg-gradient-to-br from-green-800 to-green-500 sm:rounded-lg text-white grid md:grid-cols-3 gap-6 grid-cols-1">
+            <!-- 1. KARTU STATISTIK UTAMA (Hijau) -->
+            <div class="p-6 sm:p-10 shadow-xl bg-gradient-to-br from-green-700 to-green-500 sm:rounded-xl text-white grid md:grid-cols-3 gap-8 grid-cols-1 items-center">
 
-                <!-- Kolom Kiri: Identitas User (BARU) -->
-                <div class="md:col-span-1 flex flex-col items-center justify-center text-center">
-                    <img class="h-24 w-24 rounded-full object-cover ring-4 ring-white shadow-lg" src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=D1FAE5&color=065F46&size=128" alt="{{ Auth::user()->name }}">
+                <!-- Kolom Kiri: Identitas User -->
+                <div class="md:col-span-1 flex flex-col items-center justify-center text-center border-b md:border-b-0 md:border-r border-green-400 pb-6 md:pb-0 md:pr-6">
+                    <div class="relative">
+                        <img class="h-28 w-28 rounded-full object-cover ring-4 ring-white shadow-lg" src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=D1FAE5&color=065F46&size=128" alt="{{ Auth::user()->name }}">
+                        <span class="absolute bottom-0 right-0 bg-yellow-400 text-green-900 text-xs font-bold px-2 py-1 rounded-full border-2 border-white">
+                            Lv. {{ $user->level }}
+                        </span>
+                    </div>
                     <h2 class="text-3xl font-bold text-white mt-4">{{ $user->name }}</h2>
-                    <p class="text-sm text-green-200">{{ $user->email }}</p>
+                    <p class="text-sm text-green-100">{{ $user->email }}</p>
+                    <div class="mt-4 flex items-center space-x-2 bg-green-800 bg-opacity-30 px-4 py-1 rounded-full">
+                        <span class="text-yellow-300">★</span>
+                        <span class="font-bold">{{ $user->total_score }} Poin</span>
+                    </div>
                 </div>
 
-                <!-- Kolom Kanan: Detail Statistik (Diperbarui) -->
-                <div class="md:col-span-2 bg-green-600 p-5 rounded-md shadow-md">
-                    <h2 class="text-lg font-medium text-white">
-                        Progres Level & Gamifikasi
-                    </h2>
+                <!-- Kolom Kanan: Detail Statistik -->
+                <div class="md:col-span-2">
+                    <h3 class="text-lg font-semibold text-green-100 mb-4 uppercase tracking-wider">Statistik Performa</h3>
 
-                    <div class="mt-6 space-y-6">
-
-                        <!-- [DIPERBARUI] Info Statistik (Grid 3x2) -->
-                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-6">
-                            <!-- Level -->
-                            <div class="flex items-center space-x-3">
-                                <svg class="h-8 w-8 text-green-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
-                                </svg>
-                                <div>
-                                    <span class="text-sm font-medium text-green-200">Level Anda</span>
-                                    <p class="text-2xl font-bold text-white">Level {{ $user->level }}</p>
-                                </div>
-                            </div>
-                            <!-- Skor -->
-                            <div class="flex items-center space-x-3">
-                                <svg class="h-8 w-8 text-green-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                                     <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.31h5.518a.563.563 0 0 1 .321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.563.563 0 0 1-.84.61l-4.725-3.882a.563.563 0 0 0-.652 0L5.602 19.7a.563.563 0 0 1-.84-.61l1.285-5.386a.563.563 0 0 0-.182-.557l-4.204-3.602a.563.563 0 0 1 .321-.988H7.88a.563.563 0 0 0 .475-.31L10.48 3.5Z" />
-                                </svg>
-                                <div>
-                                    <span class="text-sm font-medium text-green-200">Total Poin</span>
-                                    <p class="text-2xl font-bold text-white">{{ $user->total_score }} Poin</p>
-                                </div>
-                            </div>
-                            <!-- [BARU] Peringkat Global -->
-                            <div class="flex items-center space-x-3">
-                                <svg class="h-8 w-8 text-green-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                                  <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 0 1 3 3h-15a3 3 0 0 1 3-3m9 0v-3.375c0-.621-.504-1.125-1.125-1.125h-6.75c-.621 0-1.125.504-1.125 1.125V18.75m9 0h-9" />
-                                </svg>
-                                <div>
-                                    <span class="text-sm font-medium text-green-200">Peringkat</span>
-                                    <p class="text-2xl font-bold text-white">#{{ $userRank }}</p>
-                                </div>
-                            </div>
-                            <!-- Kuis Selesai -->
-                            <div class="flex items-center space-x-3">
-                                <svg class="h-8 w-8 text-green-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                </svg>
-                                <div>
-                                    <span class="text-sm font-medium text-green-200">Kuis Selesai</span>
-                                    <p class="text-2xl font-bold text-white">{{ $user->quizzes_completed }}</p>
-                                </div>
-                            </div>
-                            <!-- [BARU] Tanaman Selesai -->
-                            <div class="flex items-center space-x-3">
-                                <svg class="h-8 w-8 text-green-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                                  <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 0 0-.491 6.347A48.627 48.627 0 0 1 12 20.904a48.627 48.627 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.57 50.57 0 0 0-2.658-.813A59.905 59.905 0 0 1 12 3.493a59.902 59.902 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
-                                </svg>
-                                <div>
-                                    <span class="text-sm font-medium text-green-200">Tanaman Panen</span>
-                                    <p class="text-2xl font-bold text-white">{{ $plantsCompletedCount }}</p>
-                                </div>
-                            </div>
-                            <!-- Tanggal Bergabung -->
-                            <div class="flex items-center space-x-3">
-                                <svg class="h-8 w-8 text-green-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                                  <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
-                                </svg>
-                                <div>
-                                    <span class="text-sm font-medium text-green-200">Bergabung</span>
-                                    <p class="text-xl font-bold text-white">{{ $user->created_at->format('d M Y') }}</p>
-                                </div>
-                            </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+                        <div class="bg-white bg-opacity-10 rounded-lg p-3 text-center backdrop-blur-sm">
+                            <span class="block text-2xl font-bold text-white">#{{ $userRank }}</span>
+                            <span class="text-xs text-green-100">Peringkat</span>
                         </div>
-
-                        <!-- Progress Bar (Tidak Berubah) -->
-                        <div class="pt-6">
-                            @if($nextLevelScore)
-                                <div class="flex justify-between text-sm mb-1">
-                                    <span class="text-white font-medium">Progres ke Level {{ $user->level + 1 }}</span>
-                                    <span class="text-green-200 font-medium">{{ $user->total_score }} / {{ $nextLevelScore }} Poin</span>
-                                </div>
-                                <div class="w-full bg-green-800 bg-opacity-50 rounded-full h-2.5">
-                                    <div class="bg-white h-2.5 rounded-full" style="width: {{ $progressPercent }}%"></div>
-                                </div>
-                            @else
-                                <div class="flex justify-between text-sm mb-1">
-                                    <span class="text-yellow-300 font-bold">Level Maksimal Tercapai!</span>
-                                </div>
-                                <div class="w-full bg-green-800 bg-opacity-50 rounded-full h-2.5">
-                                    <div class="bg-yellow-300 h-2.5 rounded-full" style="width: 100%"></div>
-                                </div>
-                            @endif
+                        <div class="bg-white bg-opacity-10 rounded-lg p-3 text-center backdrop-blur-sm">
+                            <span class="block text-2xl font-bold text-white">{{ $user->quizzes_completed }}</span>
+                            <span class="text-xs text-green-100">Kuis Selesai</span>
                         </div>
+                        <div class="bg-white bg-opacity-10 rounded-lg p-3 text-center backdrop-blur-sm">
+                            <span class="block text-2xl font-bold text-white">{{ $plantsCompletedCount }}</span>
+                            <span class="text-xs text-green-100">Panen</span>
+                        </div>
+                        <div class="bg-white bg-opacity-10 rounded-lg p-3 text-center backdrop-blur-sm">
+                            <!-- [DIPERBAIKI] Menambahkan (int) atau floor() untuk membulatkan hari -->
+                            <span class="block text-2xl font-bold text-white">{{ (int) $user->created_at->diffInDays(now()) }}</span>
+                            <span class="text-xs text-green-100">Hari Aktif</span>
+                        </div>
+                    </div>
 
-                        <!-- Peta Level (Tidak Berubah) -->
-                        <div class="mt-6 pt-6 border-t border-green-700 border-opacity-50">
-                            <h3 class="font-medium text-white">Peta Level (Skor Minimal)</h3>
-                            <ul class="mt-2 space-y-1">
-                                @foreach($levelMap as $level => $score)
-                                <li class="flex justify-between text-sm {{ $user->level == $level ? 'text-yellow-300 font-bold' : 'text-green-100' }}">
-                                    <span>Level {{ $level }}</span>
-                                    <span>{{ $score }} Poin</span>
-                                </li>
-                                @endforeach
-                            </ul>
+                    <!-- Progress Bar -->
+                    <div>
+                        @if($nextLevelScore)
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="text-green-100">Menuju Level {{ $user->level + 1 }}</span>
+                                <span class="text-white font-bold">{{ $user->total_score }} / {{ $nextLevelScore }} XP</span>
+                            </div>
+                            <div class="w-full bg-green-900 bg-opacity-40 rounded-full h-3">
+                                <div class="bg-yellow-400 h-3 rounded-full transition-all duration-1000" style="width: {{ $progressPercent }}%"></div>
+                            </div>
+                        @else
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="text-yellow-300 font-bold">Level Maksimal Tercapai!</span>
+                            </div>
+                            <div class="w-full bg-green-900 bg-opacity-40 rounded-full h-3">
+                                <div class="bg-yellow-400 h-3 rounded-full" style="width: 100%"></div>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. BADGE COLLECTION (Baru) -->
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
+                    <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+                        <span class="bg-yellow-100 text-yellow-700 p-2 rounded-lg mr-3">🏆</span>
+                        Koleksi Lencana (Badges)
+                    </h3>
+
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                        @foreach($badges as $badge)
+                            <div class="flex flex-col items-center p-4 rounded-xl border {{ $badge['unlocked'] ? 'bg-yellow-50 border-yellow-200' : 'bg-gray-50 border-gray-200 opacity-60 grayscale' }}">
+                                <div class="text-4xl mb-2">{{ $badge['icon'] }}</div>
+                                <h4 class="font-bold text-sm text-center {{ $badge['unlocked'] ? 'text-gray-800' : 'text-gray-500' }}">{{ $badge['name'] }}</h4>
+                                <p class="text-xs text-center mt-1 {{ $badge['unlocked'] ? 'text-gray-600' : 'text-gray-400' }}">{{ $badge['desc'] }}</p>
+                                @if(!$badge['unlocked'])
+                                    <span class="mt-2 text-[10px] uppercase font-bold text-gray-400 border border-gray-300 px-2 py-0.5 rounded-full">Terkunci</span>
+                                @endif
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+                <!-- 3. RIWAYAT TANAMAN (Baru) -->
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg h-full">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <span class="bg-green-100 text-green-700 p-2 rounded-lg mr-3">🌿</span>
+                            Kebun Saya
+                        </h3>
+                        <div class="space-y-4 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+                            @forelse($myPlants as $plant)
+                                <div class="flex items-center justify-between p-3 border rounded-lg {{ $plant->status == 'active' ? 'border-green-200 bg-green-50' : 'border-gray-100 bg-gray-50' }}">
+                                    <div class="flex items-center space-x-3">
+                                        <img src="{{ asset('storage/' . $plant->plant->image_url) }}" class="w-12 h-12 rounded-md object-cover" alt="{{ $plant->plant->name }}">
+                                        <div>
+                                            <p class="font-bold text-gray-800">{{ $plant->plant->name }}</p>
+                                            <p class="text-xs text-gray-500">Mulai: {{ $plant->created_at->format('d M Y') }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        @if($plant->status == 'active')
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                Aktif
+                                            </span>
+                                        @else
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                                Panen
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+                            @empty
+                                <p class="text-gray-500 text-center py-4">Belum ada riwayat tanaman.</p>
+                            @endforelse
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. RIWAYAT KUIS (Baru) -->
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg h-full">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <span class="bg-blue-100 text-blue-700 p-2 rounded-lg mr-3">📝</span>
+                            Riwayat Akademik
+                        </h3>
+                        <div class="space-y-4 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+                            @forelse($myQuizzes as $attempt)
+                                <div class="flex items-center justify-between p-3 border border-gray-100 rounded-lg hover:bg-gray-50">
+                                    <div>
+                                        <p class="font-semibold text-gray-800">{{ $attempt->quiz->title }}</p>
+                                        <p class="text-xs text-gray-500">{{ $attempt->created_at->diffForHumans() }}</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="text-xl font-bold {{ $attempt->score >= 80 ? 'text-green-600' : ($attempt->score >= 60 ? 'text-blue-600' : 'text-red-500') }}">
+                                            {{ $attempt->score }}
+                                        </span>
+                                        <span class="text-xs text-gray-400 block">Poin</span>
+                                    </div>
+                                </div>
+                            @empty
+                                <p class="text-gray-500 text-center py-4">Belum ada kuis yang dikerjakan.</p>
+                            @endforelse
                         </div>
                     </div>
                 </div>
 
             </div>
 
-            <!-- [KARTU PENGATURAN] dengan Toggle Alpine.js (Tidak Berubah) -->
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg" x-data="{ activeTab: '' }">
-                <div class="">
-                    <h2 class="text-lg font-medium text-gray-900">
-                        Pengaturan Akun
-                    </h2>
-                    <p class="mt-1 text-sm text-gray-600">
-                        Ubah informasi profil atau password Anda.
-                    </p>
-
-                    <!-- Tombol Toggle -->
-                    <div class="mt-6 flex space-x-4">
-                        <button
-                            @click="activeTab = (activeTab === 'profile' ? '' : 'profile')"
-                            :class="activeTab === 'profile' ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-700'"
-                            class="px-5 py-2 rounded-md font-medium text-sm transition-colors duration-200">
-                            Ubah Informasi Profil
-                        </button>
-                        <button
-                            @click="activeTab = (activeTab === 'password' ? '' : 'password')"
-                            :class="activeTab === 'password' ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-700'"
-                            class="px-5 py-2 rounded-md font-medium text-sm transition-colors duration-200">
-                            Ubah Password
-                        </button>
+            <!-- 5. PENGATURAN AKUN (Toggle) -->
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg" x-data="{ activeTab: '' }">
+                <div class="p-6 sm:p-8">
+                    <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+                        <div>
+                            <h2 class="text-lg font-medium text-gray-900">⚙️ Pengaturan Akun</h2>
+                            <p class="text-sm text-gray-600">Ubah informasi profil atau password Anda.</p>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button
+                                @click="activeTab = (activeTab === 'profile' ? '' : 'profile')"
+                                :class="activeTab === 'profile' ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-700'"
+                                class="px-4 py-2 rounded-md text-sm font-medium transition-colors">
+                                Edit Profil
+                            </button>
+                            <button
+                                @click="activeTab = (activeTab === 'password' ? '' : 'password')"
+                                :class="activeTab === 'password' ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-700'"
+                                class="px-4 py-2 rounded-md text-sm font-medium transition-colors">
+                                Ganti Password
+                            </button>
+                        </div>
                     </div>
 
-                    <!-- Konten Toggle 1: Update Informasi Profil -->
-                    <div x-show="activeTab === 'profile'"
-                         x-transition
-                         style="display: none;"
-                         class="mt-6 border-t pt-6">
-
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-md font-medium text-gray-700">Formulir Informasi Profil</h3>
-                            <button @click="activeTab = ''" class="text-sm text-gray-200 hover:text-white hover:bg-red-600 transition bg-red-500 py-2 px-4 rounded-sm">Tutup</button>
-                        </div>
+                    <!-- Form Profil -->
+                    <div x-show="activeTab === 'profile'" x-transition style="display: none;" class="mt-6 border-t pt-6">
                         @include('profile.partials.update-profile-information-form')
                     </div>
 
-                    <!-- Konten Toggle 2: Update Password -->
-                    <div x-show="activeTab === 'password'"
-                         x-transition
-                         style="display: none;"
-                         class="mt-6 border-t pt-6">
-
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-md font-medium text-gray-700">Formulir Ubah Password</h3>
-                            <button @click="activeTab = ''" class="text-sm text-gray-200 hover:text-white hover:bg-red-600 transition bg-red-500 py-2 px-4 rounded-sm">Tutup</button>
-                        </div>
+                    <!-- Form Password -->
+                    <div x-show="activeTab === 'password'" x-transition style="display: none;" class="mt-6 border-t pt-6">
                         @include('profile.partials.update-password-form')
                     </div>
+                </div>
+            </div>
 
+            <!-- Hapus Akun (Disembunyikan di Accordion Merah) -->
+            <div class="bg-red-50 border border-red-200 overflow-hidden shadow-sm sm:rounded-lg" x-data="{ open: false }">
+                <div class="p-4 cursor-pointer flex justify-between items-center" @click="open = !open">
+                    <span class="text-red-700 font-medium text-sm">Zona Bahaya: Hapus Akun</span>
+                    <svg class="w-5 h-5 text-red-500 transform transition-transform" :class="{'rotate-180': open}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <div x-show="open" class="p-6 border-t border-red-200 bg-white" style="display: none;">
+                    @include('profile.partials.delete-user-form')
                 </div>
             </div>
 
