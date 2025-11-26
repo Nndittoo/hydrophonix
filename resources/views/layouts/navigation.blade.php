@@ -84,6 +84,9 @@
                             <img class="h-8 w-8 rounded-full object-cover me-2" src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=D1FAE5&color=065F46&size=32" alt="{{ Auth::user()->name }}">
                             <div class="text-left">
                                 <div>{{ Auth::user()->name }}</div>
+                                @if (Auth::user()->isUser())
+                                    <span class="text-italic text-green-600">Level {{ Auth::user()->level }}</span>
+                                @endif
                                 <div class="text-xs text-gray-400">
                                     @if(Auth::user()->isAdmin())
                                         <span class="font-semibold text-green-600">(Admin)</span>

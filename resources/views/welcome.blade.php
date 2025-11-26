@@ -12,6 +12,13 @@
 
         <!-- Styles / Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Text&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+            body {
+                font-family: "Montserrat", sans-serif;
+            }
+        </style>
 
     </head>
 

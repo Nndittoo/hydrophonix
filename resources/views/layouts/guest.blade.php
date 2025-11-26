@@ -9,6 +9,14 @@
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Text&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+            body {
+                font-family: "Montserrat", sans-serif;
+            }
+        </style>
+        <link rel="icon" href="{{ asset("img/logo.svg") }}">
         <!-- Menambahkan font-weight 700 (bold) untuk judul -->
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700&display=swap" rel="stylesheet" />
 
